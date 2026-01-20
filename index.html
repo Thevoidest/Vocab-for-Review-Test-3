@@ -3,550 +3,439 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Học Từ Vựng Tiếng Anh</title>
+    <title>Vocab for Review Test 3</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Roboto+Mono:wght@500&display=swap');
         
+        :root {
+            --primary: #2e7d32;
+            --primary-dark: #1b5e20;
+            --secondary: #4caf50;
+            --accent: #a5d6a7;
+            --bg: #f1f8e9;
+            --white: #ffffff;
+            --danger: #ef5350;
+            --success: #66bb6a;
+            --quiz-btn-color: #ff9800; /* Màu cam nổi bật cho Quiz */
+        }
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
-        
+
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
-            min-height: 100vh;
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg);
+            color: #333;
+            line-height: 1.6;
             padding: 20px;
         }
-        
+
         .container {
-            max-width: 1200px;
+            max-width: 1100px;
             margin: 0 auto;
-            background: #ffffff;
+            background: var(--white);
             border-radius: 24px;
-            padding: 40px;
-            box-shadow: 0 8px 32px rgba(46, 125, 50, 0.12);
+            padding: 30px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.05);
         }
-        
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
         h1 {
-            color: #1b5e20;
-            margin-bottom: 15px;
-            font-size: 36px;
-            text-align: center;
-            font-weight: 700;
-        }
-        
-        .subtitle {
-            color: #4caf50;
-            margin-bottom: 35px;
-            font-size: 18px;
-            text-align: center;
-            line-height: 1.6;
-            font-weight: 500;
-        }
-        
-        .vocab-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-            gap: 20px;
-            margin-top: 20px;
-        }
-        
-        .vocab-item {
-            position: relative;
-            padding: 25px 20px;
-            background: linear-gradient(135deg, #2e7d32 0%, #1b5e20 100%);
-            color: white;
-            border-radius: 16px;
-            cursor: pointer;
-            transition: transform 0.2s, box-shadow 0.2s;
-            font-weight: 600;
-            font-size: 20px;
-            text-align: center;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            min-height: 90px;
-            box-shadow: 0 4px 12px rgba(46, 125, 50, 0.25);
-        }
-        
-        .vocab-item:hover {
-            transform: translateY(-8px) scale(1.02);
-            box-shadow: 0 12px 30px rgba(46, 125, 50, 0.4);
-        }
-
-        .vocab-word {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .audio-indicator {
-            font-size: 16px;
-            opacity: 0;
-            transition: opacity 0.3s;
-        }
-
-        .vocab-item:hover .audio-indicator {
-            opacity: 1;
-            animation: pulse 1s infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.2); }
-        }
-        
-        .tooltip {
-            position: absolute;
-            bottom: 100%;
-            left: 50%;
-            transform: translateX(-50%) translateY(-20px);
-            background: #1b5e20;
-            color: white;
-            padding: 20px 26px 24px 26px;
-            border-radius: 14px;
-            font-size: 16px;
-            font-weight: 400;
-            white-space: normal;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.3s, transform 0.3s;
-            z-index: 1000;
-            box-shadow: 0 12px 40px rgba(27, 94, 32, 0.4);
-            max-width: 400px;
-            min-width: 250px;
-            text-align: left;
-            line-height: 1.6;
-        }
-        
-        /* Thêm vùng đệm invisible để dễ hover */
-        .tooltip::before {
-            content: '';
-            position: absolute;
-            top: 100%;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 120%;
-            height: 25px;
-            background: transparent;
-        }
-        
-        /* Cho phép click vào tooltip */
-        .vocab-item:hover .tooltip {
-            opacity: 1;
-            transform: translateX(-50%) translateY(-15px);
-            pointer-events: auto;
-        }
-
-        .tooltip:hover {
-            opacity: 1;
-            pointer-events: auto;
-        }
-        
-        /* Mũi tên to hơn */
-        .tooltip::after {
-            content: '';
-            position: absolute;
-            top: 100%;
-            left: 50%;
-            transform: translateX(-50%);
-            border: 15px solid transparent;
-            border-top-color: #1b5e20;
-        }
-
-        .tooltip-ipa {
-            color: #a5d6a7;
-            font-size: 17px;
-            font-weight: 600;
-            margin-bottom: 8px;
-            font-family: 'Courier New', monospace;
-        }
-
-        .tooltip-paraphrase {
-            color: #c8e6c9;
-            font-size: 14px;
-            font-style: italic;
+            color: var(--primary-dark);
+            font-size: 32px;
             margin-bottom: 10px;
-            padding-bottom: 10px;
-            border-bottom: 1px solid #388e3c;
         }
 
-        .tooltip-meaning {
-            color: #ffffff;
-            font-size: 17px;
-            font-weight: 500;
-            margin-bottom: 12px;
-        }
-
-        .youglish-btn {
-            margin-top: 8px;
-            padding: 10px 18px;
-            background: #66bb6a;
-            color: white;
-            border: none;
-            border-radius: 10px;
-            cursor: pointer;
-            font-size: 14px;
-            font-weight: 600;
-            transition: all 0.3s;
-            text-decoration: none;
-            display: inline-block;
-            width: 100%;
-            text-align: center;
-            font-family: 'Inter', sans-serif;
-        }
-
-        .youglish-btn:hover {
-            background: #4caf50;
-            transform: scale(1.05);
-        }
-
-        .vocab-count {
-            text-align: center;
-            color: #2e7d32;
-            margin-top: 30px;
-            font-size: 16px;
+        .subtitle {
+            color: var(--secondary);
             font-weight: 500;
         }
 
+        /* Controls Area */
         .controls {
             display: flex;
-            justify-content: center;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: #f9fdf9;
+            border-radius: 16px;
             gap: 15px;
-            margin-bottom: 25px;
             flex-wrap: wrap;
         }
 
-        .voice-select {
-            padding: 10px 15px;
-            border: 2px solid #2e7d32;
+        .voice-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        select {
+            padding: 10px;
             border-radius: 10px;
-            font-size: 14px;
+            border: 2px solid var(--accent);
+            font-family: inherit;
+            outline: none;
             background: white;
-            color: #2e7d32;
-            font-weight: 600;
+        }
+
+        .btn {
+            padding: 14px 28px;
+            border: none;
+            border-radius: 12px;
+            font-weight: 700;
             cursor: pointer;
             transition: all 0.3s;
-            font-family: 'Inter', sans-serif;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 4px 14px rgba(0,0,0,0.1);
         }
 
-        .voice-select:hover {
-            background: #2e7d32;
+        .btn-quiz { 
+            background: var(--quiz-btn-color); 
+            color: white; 
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 152, 0, 0.4); }
+            70% { transform: scale(1.03); box-shadow: 0 0 0 10px rgba(255, 152, 0, 0); }
+            100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 152, 0, 0); }
+        }
+
+        .btn-quiz:hover { 
+            background: #f57c00; 
+            transform: translateY(-2px); 
+        }
+
+        /* Vocab Grid */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 20px;
+        }
+
+        .card {
+            position: relative;
+            height: 120px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            border-radius: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             color: white;
+            font-size: 18px;
+            font-weight: 600;
+            text-align: center;
+            padding: 15px;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 4px 15px rgba(46, 125, 50, 0.2);
         }
 
-        @media (max-width: 768px) {
-            .vocab-grid {
-                grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-                gap: 15px;
-            }
-            
-            .container {
-                padding: 25px;
-            }
-            
-            h1 {
-                font-size: 28px;
-            }
+        .card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 25px rgba(46, 125, 50, 0.3);
+        }
 
-            .subtitle {
-                font-size: 16px;
-            }
+        /* Tooltip style */
+        .card .details {
+            position: absolute;
+            bottom: 120%;
+            left: 50%;
+            transform: translateX(-50%) translateY(10px);
+            width: 280px;
+            background: #1b5e20;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+            opacity: 0;
+            pointer-events: none;
+            transition: all 0.3s;
+            z-index: 10;
+        }
 
-            .vocab-item {
-                font-size: 18px;
-                padding: 20px 15px;
-                min-height: 80px;
-            }
+        .card:hover .details {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+            pointer-events: auto;
+        }
 
-            .tooltip {
-                font-size: 14px;
-                padding: 16px 20px;
-                max-width: 280px;
-            }
+        .details::after {
+            content: '';
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            margin-left: -10px;
+            border-width: 10px;
+            border-style: solid;
+            border-color: #1b5e20 transparent transparent transparent;
+        }
 
-            .tooltip-ipa {
-                font-size: 15px;
-            }
+        .ipa { 
+            color: #ffffff; 
+            background: rgba(0,0,0,0.2);
+            padding: 4px 8px;
+            border-radius: 6px;
+            font-family: 'Roboto Mono', monospace; 
+            font-size: 15px; 
+            font-weight: 500;
+            margin-bottom: 10px; 
+            display: inline-block;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+        .def { font-size: 13px; color: #e8f5e9; font-style: italic; margin-bottom: 10px; line-height: 1.4; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 10px;}
+        .v-meaning { display: block; font-size: 17px; margin-bottom: 12px; color: #fff; text-shadow: 1px 1px 2px rgba(0,0,0,0.3); }
+        .yg-link {
+            display: inline-block;
+            width: 100%;
+            padding: 8px;
+            background: var(--secondary);
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 12px;
+            text-align: center;
+        }
 
-            .tooltip-meaning {
-                font-size: 15px;
-            }
+        /* Quiz Overlay */
+        #quizOverlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.85);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            backdrop-filter: blur(5px);
+        }
+
+        .quiz-container {
+            background: white;
+            width: 90%;
+            max-width: 500px;
+            padding: 40px;
+            border-radius: 24px;
+            text-align: center;
+            position: relative;
+        }
+
+        .quiz-q { font-size: 22px; font-weight: 700; color: var(--primary-dark); margin-bottom: 30px; }
+        .options { display: grid; gap: 12px; }
+        .opt-btn {
+            padding: 16px;
+            border: 2px solid #eee;
+            border-radius: 12px;
+            background: white;
+            cursor: pointer;
+            font-size: 16px;
+            font-family: inherit;
+            transition: 0.2s;
+        }
+        .opt-btn:hover:not(:disabled) { border-color: var(--primary); background: #f1f8e9; }
+        
+        .opt-btn.correct { background: var(--success) !important; color: white; border-color: var(--success); }
+        .opt-btn.wrong { background: var(--danger) !important; color: white; border-color: var(--danger); }
+
+        .close-quiz {
+            position: absolute;
+            top: 15px; right: 20px;
+            font-size: 30px;
+            cursor: pointer;
+            color: #999;
+        }
+
+        @media (max-width: 600px) {
+            .container { padding: 15px; }
+            .grid { grid-template-columns: 1fr 1fr; }
+            .card { height: 100px; font-size: 15px; }
+            .controls { flex-direction: column; align-items: stretch; }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>📚 Học Từ Vựng Tiếng Anh</h1>
-        <p class="subtitle">Em di chuột lên từ vựng để biết nghĩa và cách phát âm</p>
-        
-        <div class="controls">
-            <select class="voice-select" id="voiceSelect">
-                <option value="">Đang tải giọng đọc...</option>
-            </select>
-        </div>
 
-        <div class="vocab-grid" id="vocabGrid"></div>
-        <div class="vocab-count" id="vocabCount"></div>
+<div class="container">
+    <header>
+        <h1>Vocab for Review Test 3</h1>
+        <p class="subtitle">Di chuột qua các từ vựng để biết nghĩa, phiên âm IPA và bối cảnh thực tế</p>
+    </header>
+
+    <div class="controls">
+        <div class="voice-group">
+            <span>Giọng đọc:</span>
+            <select id="voiceSelect"></select>
+        </div>
+        <button class="btn btn-quiz" onclick="openQuiz()">
+            <span>Bắt đầu Quiz ➔</span>
+        </button>
     </div>
 
-    <script>
-        // ==========================================
-        // PHẦN NÀY ĐỂ THẦY/CÔ CHỈNH TỪ VỰNG
-        // Format: 'word': { ipa: 'phiên âm', paraphrase: 'giải thích ngắn', meaning: 'nghĩa tiếng Việt' }
-        // ==========================================
-       const VOCABULARY = {
-  "Transition": {
-    "ipa": "/trænˈzɪʃ.ən/",
-    "paraphrase": "a process of changing from one state or condition to another",
-    "meaning": "sự chuyển đổi"
-  },
-  "Expand": {
-    "ipa": "/ɪkˈspænd/",
-    "paraphrase": "to increase in size, number, or importance",
-    "meaning": "mở rộng"
-  },
-  "Developmental phase": {
-    "ipa": "/dɪˌvel.əpˈmen.təl feɪz/",
-    "paraphrase": "a stage of growth or improvement",
-    "meaning": "giai đoạn phát triển"
-  },
-  "Craftsman": {
-    "ipa": "/ˈkrɑːfts.mən/",
-    "paraphrase": "a person who is very skilled at making things by hand",
-    "meaning": "thợ thủ công"
-  },
-  "Continue the tradition": {
-    "ipa": "/kənˈtɪn.juː ðə trəˈdɪʃ.ən/",
-    "paraphrase": "to do something that has been done by your family for a long time",
-    "meaning": "tiếp nối truyền thống"
-  },
-  "Competitive edge": {
-    "ipa": "/kəmˈpet.ɪ.tɪv edʒ/",
-    "paraphrase": "something that makes a company better than its rivals",
-    "meaning": "lợi thế cạnh tranh"
-  },
-  "Staff attitude": {
-    "ipa": "/stɑːf ˈæt.ɪ.tʃuːd/",
-    "paraphrase": "the way that employees think and behave",
-    "meaning": "thái độ nhân viên"
-  },
-  "Locally sourced": {
-    "ipa": "/ˈləʊ.kəl.i sɔːst/",
-    "paraphrase": "obtained or gathered from a nearby area",
-    "meaning": "nguồn gốc địa phương"
-  },
-  "Bare facts": {
-    "ipa": "/beər fækts/",
-    "paraphrase": "the simplest and most basic information without any extra detail",
-    "meaning": "sự thật thuần túy"
-  },
-  "Referencing": {
-    "ipa": "/ˈref.ər.əns.ɪŋ/",
-    "paraphrase": "the act of showing where information in a text came from",
-    "meaning": "trích dẫn nguồn"
-  },
-  "Financial data": {
-    "ipa": "/faɪˈnæn.ʃəl ˈdeɪ.tə/",
-    "paraphrase": "numbers and information relating to money",
-    "meaning": "số liệu tài chính/thống kê"
-  },
-  "Warehouses": {
-    "ipa": "/ˈweə.haʊ.zɪz/",
-    "paraphrase": "large buildings used for storing goods before they are sold",
-    "meaning": "kho hàng"
-  },
-  "Infrastructure": {
-    "ipa": "/ˈɪn.frəˌstrʌk.tʃər/",
-    "paraphrase": "the basic systems and structures that an organization needs to work",
-    "meaning": "cơ sở hạ tầng"
-  },
-  "Software programs": {
-    "ipa": "/ˈsɒft.weər ˈprəʊ.ɡræmz/",
-    "paraphrase": "instructions that tell a computer what to do",
-    "meaning": "chương trình phần mềm"
-  },
-  "Operational costs": {
-    "ipa": "/ˌɒp.ərˈeɪ.ʃən.əl kɒsts/",
-    "paraphrase": "the money needed to keep a business running day-to-day",
-    "meaning": "chi phí vận hành"
-  },
-  "Navigate": {
-    "ipa": "/ˈnæv.ɪ.ɡeɪt/",
-    "paraphrase": "to find your way around on a website or computer screen",
-    "meaning": "điều hướng/duyệt"
-  },
-  "Complained": {
-    "ipa": "/kəmˈpleɪnd/",
-    "paraphrase": "said that something is wrong or not satisfactory",
-    "meaning": "phàn nàn"
-  },
-  "Revenue": {
-    "ipa": "/ˈrev.ən.juː/",
-    "paraphrase": "the total amount of money received by a company",
-    "meaning": "doanh thu"
-  },
-  "Durability": {
-    "ipa": "/ˌdʒʊə.rəˈbɪl.ə.ti/",
-    "paraphrase": "the ability to stay in good condition for a long time",
-    "meaning": "độ bền"
-  },
-  "Functionality": {
-    "ipa": "/ˌfʌŋk.ʃənˈæl.ə.ti/",
-    "paraphrase": "how useful something is and how well it works",
-    "meaning": "tính năng/tính hữu dụng"
-  }
-};
-        // ==========================================
+    <div class="grid" id="vocabGrid"></div>
+</div>
 
-        let voices = [];
-        let selectedVoice = null;
+<div id="quizOverlay">
+    <div class="quiz-container">
+        <span class="close-quiz" onclick="closeQuiz()">&times;</span>
+        <div id="quizContent">
+            <div class="quiz-q" id="question">Loading...</div>
+            <div class="options" id="optionsGrid"></div>
+        </div>
+        <div id="score" style="margin-top: 20px; font-weight: 600; color: #666;"></div>
+    </div>
+</div>
 
-        // Load voices - chỉ giữ Mark, Google US, và 2 giọng UK
-        function loadVoices() {
-            voices = speechSynthesis.getVoices();
-            const voiceSelect = document.getElementById('voiceSelect');
-            
-            // Filter specific voices only
-            const allowedVoices = voices.filter(voice => {
-                const name = voice.name.toLowerCase();
-                const lang = voice.lang.toLowerCase();
-                
-                return (
-                    name.includes('mark') || // Giọng Mark
-                    (name.includes('google') && lang.includes('en-us')) || // Google US
-                    (name.includes('google') && lang.includes('en-gb')) || // Google UK
-                    (lang.includes('en-gb') && !name.includes('google')) // UK voices khác
-                );
-            });
+<script>
+    const VOCAB_DATA = {
+        "Transition": { ipa: "/trænˈzɪʃ.ən/", paraphrase: "a process of changing from one state or condition to another", meaning: "sự chuyển đổi" },
+        "Expand": { ipa: "/ɪkˈspænd/", paraphrase: "to increase in size, number, or importance", meaning: "mở rộng" },
+        "Developmental phase": { ipa: "/dɪˌvel.əpˈmen.təl feɪz/", paraphrase: "a stage of growth or improvement", meaning: "giai đoạn phát triển" },
+        "Craftsman": { ipa: "/ˈkrɑːfts.mən/", paraphrase: "a person who is very skilled at making things by hand", meaning: "thợ thủ công" },
+        "Continue the tradition": { ipa: "/kənˈtɪn.juː ðə trəˈdɪʃ.ən/", paraphrase: "to do something that has been done by your family for a long time", meaning: "tiếp nối truyền thống" },
+        "Competitive edge": { ipa: "/kəmˈpet.ɪ.tɪv edʒ/", paraphrase: "something that makes a company better than its rivals", meaning: "lợi thế cạnh tranh" },
+        "Staff attitude": { ipa: "/stɑːf ˈæt.ɪ.tʃuːd/", paraphrase: "the way that employees think and behave", meaning: "thái độ nhân viên" },
+        "Locally sourced": { ipa: "/ˈləʊ.kəl.i sɔːst/", paraphrase: "obtained or gathered from a nearby area", meaning: "nguồn gốc địa phương" },
+        "Bare facts": { ipa: "/beər fækts/", paraphrase: "the simplest and most basic information without any extra detail", meaning: "sự thật thuần túy" },
+        "Referencing": { ipa: "/ˈref.ər.əns.ɪŋ/", paraphrase: "the act of showing where information in a text came from", meaning: "trích dẫn nguồn" },
+        "Financial data": { ipa: "/faɪˈnæn.ʃəl ˈdeɪ.tə/", paraphrase: "numbers and information relating to money", meaning: "số liệu tài chính/thống kê" },
+        "Warehouses": { ipa: "/ˈweə.haʊ.zɪz/", paraphrase: "large buildings used for storing goods before they are sold", meaning: "kho hàng" },
+        "Infrastructure": { ipa: "/ˈɪn.frəˌstrʌk.tʃər/", paraphrase: "the basic systems and structures that an organization needs to work", meaning: "cơ sở hạ tầng" },
+        "Software programs": { ipa: "/ˈsɒft.weər ˈprəʊ.ɡræmz/", paraphrase: "instructions that tell a computer what to do", meaning: "chương trình phần mềm" },
+        "Operational costs": { ipa: "/ˌɒp.ərˈeɪ.ʃən.əl kɒsts/", paraphrase: "the money needed to keep a business running day-to-day", meaning: "chi phí vận hành" },
+        "Navigate": { ipa: "/ˈnæv.ɪ.ɡeɪt/", paraphrase: "to find your way around on a website or computer screen", meaning: "điều hướng/duyệt" },
+        "Complained": { ipa: "/kəmˈpleɪnd/", paraphrase: "said that something is wrong or not satisfactory", meaning: "phàn nàn" },
+        "Revenue": { ipa: "/ˈrev.ən.juː/", paraphrase: "the total amount of money received by a company", meaning: "doanh thu" },
+        "Durability": { ipa: "/ˌdʒʊə.rəˈbɪl.ə.ti/", paraphrase: "the ability to stay in good condition for a long time", meaning: "độ bền" },
+        "Functionality": { ipa: "/ˌfʌŋk.ʃənˈæl.ə.ti/", paraphrase: "how useful something is and how well it works", meaning: "tính năng/tính hữu dụng" }
+    };
 
-            if (allowedVoices.length === 0) {
-                voiceSelect.innerHTML = '<option>Không tìm thấy giọng phù hợp</option>';
-                return;
-            }
+    // --- Audio System ---
+    let synth = window.speechSynthesis;
+    let voices = [];
+    const voiceSelect = document.getElementById('voiceSelect');
 
-            voiceSelect.innerHTML = '';
-            
-            allowedVoices.forEach((voice, index) => {
-                const option = document.createElement('option');
-                option.value = index;
-                
-                // Friendly names
-                let displayName = voice.name;
-                if (voice.name.includes('Google') && voice.lang.includes('US')) {
-                    displayName = '🇺🇸 Google US English';
-                } else if (voice.name.includes('Google') && voice.lang.includes('GB')) {
-                    displayName = '🇬🇧 Google UK English';
-                } else if (voice.name.toLowerCase().includes('mark')) {
-                    displayName = '🇺🇸 Mark (US)';
-                } else if (voice.lang.includes('GB')) {
-                    displayName = `🇬🇧 ${voice.name}`;
-                }
-                
-                option.textContent = displayName;
-                voiceSelect.appendChild(option);
-                
-                // Set default to Google US or Mark
-                if (!selectedVoice && (
-                    voice.name.includes('Google US') || 
-                    voice.name.toLowerCase().includes('mark')
-                )) {
-                    selectedVoice = voice;
-                    voiceSelect.value = index;
-                }
-            });
+    function populateVoices() {
+        // Lọc bỏ David và Zira, chỉ lấy các giọng tiếng Anh khác
+        voices = synth.getVoices().filter(v => 
+            v.lang.startsWith('en') && 
+            !v.name.includes('David') && 
+            !v.name.includes('Zira')
+        );
+        
+        voiceSelect.innerHTML = voices.map((v, i) => 
+            `<option value="${i}">${v.name.includes('Google') ? '🌐 ' : '🗣️ '}${v.name}</option>`
+        ).join('');
+    }
 
-            // If no preferred voice found, use first one
-            if (!selectedVoice && allowedVoices.length > 0) {
-                selectedVoice = allowedVoices[0];
-                voiceSelect.value = 0;
-            }
+    if (speechSynthesis.onvoiceschanged !== undefined) {
+        speechSynthesis.onvoiceschanged = populateVoices;
+    }
+    populateVoices();
 
-            voiceSelect.addEventListener('change', (e) => {
-                selectedVoice = allowedVoices[e.target.value];
+    function speak(text) {
+        synth.cancel();
+        const utter = new SpeechSynthesisUtterance(text);
+        if (voices[voiceSelect.value]) {
+            utter.voice = voices[voiceSelect.value];
+        }
+        utter.rate = 0.85;
+        synth.speak(utter);
+    }
+
+    // --- Render Grid ---
+    const grid = document.getElementById('vocabGrid');
+    Object.entries(VOCAB_DATA).forEach(([word, info]) => {
+        const card = document.createElement('div');
+        card.className = 'card';
+        card.innerHTML = `
+            ${word}
+            <div class="details">
+                <div class="ipa">${info.ipa}</div>
+                <div class="def">${info.paraphrase}</div>
+                <strong class="v-meaning">${info.meaning}</strong>
+                <a href="https://youglish.com/pronounce/${word}/english" target="_blank" class="yg-link">📺 Xem ví dụ thực tế</a>
+            </div>
+        `;
+        card.onmouseenter = () => speak(word);
+        grid.appendChild(card);
+    });
+
+    // --- Quiz Logic ---
+    let currentQ = '';
+    let score = 0;
+    let totalQuestions = 0;
+
+    function openQuiz() {
+        document.getElementById('quizOverlay').style.display = 'flex';
+        score = 0;
+        totalQuestions = 0;
+        updateScore();
+        generateQuestion();
+    }
+
+    function closeQuiz() {
+        document.getElementById('quizOverlay').style.display = 'none';
+        synth.cancel();
+    }
+
+    function generateQuestion() {
+        const keys = Object.keys(VOCAB_DATA);
+        currentQ = keys[Math.floor(Math.random() * keys.length)];
+        const correct = VOCAB_DATA[currentQ].meaning;
+        
+        let distractors = Object.values(VOCAB_DATA)
+            .map(v => v.meaning)
+            .filter(m => m !== correct);
+        distractors = distractors.sort(() => 0.5 - Math.random()).slice(0, 3);
+        
+        const options = [...distractors, correct].sort(() => 0.5 - Math.random());
+        
+        document.getElementById('question').innerText = `Từ "${currentQ}" nghĩa là gì?`;
+        const optionsGrid = document.getElementById('optionsGrid');
+        optionsGrid.innerHTML = '';
+
+        options.forEach(opt => {
+            const btn = document.createElement('button');
+            btn.className = 'opt-btn';
+            btn.innerText = opt;
+            btn.onclick = () => handleAnswer(btn, opt === correct);
+            optionsGrid.appendChild(btn);
+        });
+    }
+
+    function handleAnswer(selectedBtn, isCorrect) {
+        const btns = document.querySelectorAll('.opt-btn');
+        btns.forEach(b => b.disabled = true);
+        
+        totalQuestions++;
+        if (isCorrect) {
+            selectedBtn.classList.add('correct');
+            score++;
+            speak("Correct!");
+        } else {
+            selectedBtn.classList.add('wrong');
+            speak("Wrong answer.");
+            btns.forEach(b => {
+                if (b.innerText === VOCAB_DATA[currentQ].meaning) b.classList.add('correct');
             });
         }
 
-        // Load voices on page load and when voices change
-        if (speechSynthesis.onvoiceschanged !== undefined) {
-            speechSynthesis.onvoiceschanged = loadVoices;
-        }
-        loadVoices();
+        updateScore();
+        setTimeout(generateQuestion, 1500);
+    }
 
-        // Speak word with better quality
-        function speakWord(word) {
-            if ('speechSynthesis' in window) {
-                speechSynthesis.cancel();
-                
-                const utterance = new SpeechSynthesisUtterance(word);
-                
-                if (selectedVoice) {
-                    utterance.voice = selectedVoice;
-                }
-                
-                utterance.lang = 'en-US';
-                utterance.rate = 0.85;
-                utterance.pitch = 1;
-                utterance.volume = 1;
-                
-                speechSynthesis.speak(utterance);
-            }
-        }
+    function updateScore() {
+        document.getElementById('score').innerText = `Kết quả: ${score}/${totalQuestions}`;
+    }
+</script>
 
-        // Open Youglish
-        function openYouglish(word, event) {
-            event.stopPropagation();
-            const url = `https://youglish.com/pronounce/${encodeURIComponent(word)}/english`;
-            window.open(url, '_blank');
-        }
-
-        // Render vocabulary
-        function renderVocab() {
-            const grid = document.getElementById('vocabGrid');
-            const count = document.getElementById('vocabCount');
-            
-            grid.innerHTML = '';
-            
-            Object.entries(VOCABULARY).forEach(([word, data]) => {
-                const item = document.createElement('div');
-                item.className = 'vocab-item';
-                
-                // Build tooltip content
-                let tooltipContent = '';
-                if (data.ipa) {
-                    tooltipContent += `<div class="tooltip-ipa">${data.ipa}</div>`;
-                }
-                if (data.paraphrase) {
-                    tooltipContent += `<div class="tooltip-paraphrase">${data.paraphrase}</div>`;
-                }
-                tooltipContent += `<div class="tooltip-meaning">${data.meaning}</div>`;
-                tooltipContent += `<button class="youglish-btn" onclick="openYouglish('${word}', event)">📺 Xem ví dụ Youglish</button>`;
-                
-                item.innerHTML = `
-                    <div class="vocab-word">
-                        <div>${word}</div>
-                        <span class="audio-indicator">🔊</span>
-                    </div>
-                    <div class="tooltip">
-                        ${tooltipContent}
-                    </div>
-                `;
-                
-                item.addEventListener('mouseenter', () => {
-                    speakWord(word);
-                });
-                
-                grid.appendChild(item);
-            });
-            
-            count.textContent = `Tổng cộng: ${Object.keys(VOCABULARY).length} từ vựng`;
-        }
-
-        // Initialize
-        renderVocab();
-    </script>
 </body>
 </html>
