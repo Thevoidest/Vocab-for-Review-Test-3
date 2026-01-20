@@ -282,13 +282,18 @@
 <div class="container">
     <header>
         <h1>Vocab for Review Test 3</h1>
-        <p class="subtitle">Chạm (Mobile) hoặc Di chuột (PC) để xem nghĩa và nghe phát âm</p>
+        <p class="subtitle">Chạm (Mobile) hoặc Di chuột (PC) để xem nghĩa và nghe phát âm (Online TTS)</p>
     </header>
 
     <div class="controls">
         <div class="voice-group">
-            <span>Accent:</span>
-            <select id="voiceSelect"></select>
+            <span>IELTS Accent:</span>
+            <select id="voiceSelect">
+                <option value="en-gb">🇬🇧 British (UK)</option>
+                <option value="en-us">🇺🇸 American (US)</option>
+                <option value="en-au">🇦🇺 Australian (AU)</option>
+                <option value="en-in">🇮🇳 Indian (IN)</option>
+            </select>
         </div>
         <button class="btn btn-quiz" onclick="openQuiz()">
             <span>Bắt đầu Quiz ➔</span>
@@ -308,6 +313,8 @@
         <div id="score" style="margin-top: 20px; font-weight: 600; color: #666; font-size: 14px;"></div>
     </div>
 </div>
+
+<audio id="ttsAudio" hidden></audio>
 
 <script>
     const VOCAB_DATA = {
@@ -333,8 +340,9 @@
         "Functionality": { ipa: "/ˌfʌŋk.ʃənˈæl.ə.ti/", paraphrase: "how useful something is and how well it works", meaning: "tính năng/tính hữu dụng" }
     };
 
-    // --- Web Audio API để tạo âm báo ting ting / buồn ---
     const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    const ttsAudio = document.getElementById('ttsAudio');
+    const voiceSelect = document.getElementById('voiceSelect');
 
     function playSound(type) {
         if (audioCtx.state === 'suspended') audioCtx.resume();
@@ -361,49 +369,15 @@
         }
     }
 
-    let synth = window.speechSynthesis;
-    let voices = [];
-    const voiceSelect = document.getElementById('voiceSelect');
-
-    function getFlag(lang) {
-        if (lang.includes('GB')) return '🇬🇧';
-        if (lang.includes('US')) return '🇺🇸';
-        if (lang.includes('AU')) return '🇦🇺';
-        if (lang.includes('IN')) return '🇮🇳';
-        if (lang.includes('IE')) return '🇮🇪';
-        return '🗣️';
-    }
-
-    function populateVoices() {
-        // Lọc kỹ hơn để tìm các accent IELTS phổ biến
-        voices = synth.getVoices().filter(v => v.lang.startsWith('en'));
-        
-        // Sắp xếp ưu tiên các giọng hay (Google, Microsoft, Premium)
-        voices.sort((a, b) => {
-            if (a.name.includes('Google') && !b.name.includes('Google')) return -1;
-            return 0;
-        });
-
-        voiceSelect.innerHTML = voices.map((v, i) => {
-            const flag = getFlag(v.lang.toUpperCase() + v.name.toUpperCase());
-            const accentName = v.name.replace(/Microsoft |Google |English |\(.*?\)/g, '').trim();
-            return `<option value="${i}">${flag} ${accentName} (${v.lang})</option>`;
-        }).join('');
-    }
-
-    if (speechSynthesis.onvoiceschanged !== undefined) {
-        speechSynthesis.onvoiceschanged = populateVoices;
-    }
-    populateVoices();
-
+    // --- Cập nhật: Sử dụng Google TTS API Online ---
     function speak(text) {
-        synth.cancel();
-        const utter = new SpeechSynthesisUtterance(text);
-        if (voices[voiceSelect.value]) {
-            utter.voice = voices[voiceSelect.value];
-        }
-        utter.rate = 0.85;
-        synth.speak(utter);
+        const lang = voiceSelect.value;
+        const url = `https://translate.google.com/translate_tts?ie=UTF-8&q=${encodeURIComponent(text)}&tl=${lang}&client=tw-ob`;
+        
+        ttsAudio.src = url;
+        ttsAudio.play().catch(err => {
+            console.log("TTS Error: Có thể do trình duyệt chặn tự động phát. Hãy tương tác với trang web trước.");
+        });
     }
 
     function closeAllCards() {
@@ -473,7 +447,7 @@
 
     function closeQuiz() {
         document.getElementById('quizOverlay').style.display = 'none';
-        synth.cancel();
+        ttsAudio.pause();
     }
 
     function generateQuestion() {
