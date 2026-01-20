@@ -287,7 +287,7 @@
 
     <div class="controls">
         <div class="voice-group">
-            <span>Giọng đọc:</span>
+            <span>Accent:</span>
             <select id="voiceSelect"></select>
         </div>
         <button class="btn btn-quiz" onclick="openQuiz()">
@@ -344,16 +344,14 @@
         gainNode.connect(audioCtx.destination);
 
         if (type === 'correct') {
-            // Âm "Ting" cao và sáng
             oscillator.type = 'sine';
-            oscillator.frequency.setValueAtTime(880, audioCtx.currentTime); // A5
+            oscillator.frequency.setValueAtTime(880, audioCtx.currentTime);
             oscillator.frequency.exponentialRampToValueAtTime(1320, audioCtx.currentTime + 0.1);
             gainNode.gain.setValueAtTime(0.1, audioCtx.currentTime);
             gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.2);
             oscillator.start();
             oscillator.stop(audioCtx.currentTime + 0.2);
         } else {
-            // Âm "Bụp" trầm và ngắn
             oscillator.type = 'square';
             oscillator.frequency.setValueAtTime(150, audioCtx.currentTime);
             gainNode.gain.setValueAtTime(0.1, audioCtx.currentTime);
@@ -367,15 +365,30 @@
     let voices = [];
     const voiceSelect = document.getElementById('voiceSelect');
 
+    function getFlag(lang) {
+        if (lang.includes('GB')) return '🇬🇧';
+        if (lang.includes('US')) return '🇺🇸';
+        if (lang.includes('AU')) return '🇦🇺';
+        if (lang.includes('IN')) return '🇮🇳';
+        if (lang.includes('IE')) return '🇮🇪';
+        return '🗣️';
+    }
+
     function populateVoices() {
-        voices = synth.getVoices().filter(v => 
-            v.lang.startsWith('en') && 
-            !v.name.includes('David') && 
-            !v.name.includes('Zira')
-        );
-        voiceSelect.innerHTML = voices.map((v, i) => 
-            `<option value="${i}">${v.name.includes('Google') ? '🌐 ' : '🗣️ '}${v.name}</option>`
-        ).join('');
+        // Lọc kỹ hơn để tìm các accent IELTS phổ biến
+        voices = synth.getVoices().filter(v => v.lang.startsWith('en'));
+        
+        // Sắp xếp ưu tiên các giọng hay (Google, Microsoft, Premium)
+        voices.sort((a, b) => {
+            if (a.name.includes('Google') && !b.name.includes('Google')) return -1;
+            return 0;
+        });
+
+        voiceSelect.innerHTML = voices.map((v, i) => {
+            const flag = getFlag(v.lang.toUpperCase() + v.name.toUpperCase());
+            const accentName = v.name.replace(/Microsoft |Google |English |\(.*?\)/g, '').trim();
+            return `<option value="${i}">${flag} ${accentName} (${v.lang})</option>`;
+        }).join('');
     }
 
     if (speechSynthesis.onvoiceschanged !== undefined) {
@@ -386,7 +399,9 @@
     function speak(text) {
         synth.cancel();
         const utter = new SpeechSynthesisUtterance(text);
-        if (voices[voiceSelect.value]) utter.voice = voices[voiceSelect.value];
+        if (voices[voiceSelect.value]) {
+            utter.voice = voices[voiceSelect.value];
+        }
         utter.rate = 0.85;
         synth.speak(utter);
     }
@@ -430,7 +445,6 @@
         grid.appendChild(card);
     });
 
-    // --- Cải tiến Quiz để không bị lặp từ ---
     let currentQ = '';
     let score = 0;
     let totalQuestions = 0;
