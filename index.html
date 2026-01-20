@@ -2,7 +2,7 @@
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Vocab for Review Test 3</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Roboto+Mono:wght@500&display=swap');
@@ -16,13 +16,14 @@
             --white: #ffffff;
             --danger: #ef5350;
             --success: #66bb6a;
-            --quiz-btn-color: #ff9800; /* Màu cam nổi bật cho Quiz */
+            --quiz-btn-color: #ff9800;
         }
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
         }
 
         body {
@@ -30,64 +31,75 @@
             background-color: var(--bg);
             color: #333;
             line-height: 1.6;
-            padding: 20px;
+            padding: 10px;
         }
 
         .container {
             max-width: 1100px;
             margin: 0 auto;
             background: var(--white);
-            border-radius: 24px;
-            padding: 30px;
+            border-radius: 20px;
+            padding: 20px;
             box-shadow: 0 10px 40px rgba(0,0,0,0.05);
         }
 
         header {
             text-align: center;
-            margin-bottom: 40px;
+            margin-bottom: 25px;
         }
 
         h1 {
             color: var(--primary-dark);
-            font-size: 32px;
-            margin-bottom: 10px;
+            font-size: clamp(20px, 6vw, 32px);
+            margin-bottom: 8px;
         }
 
         .subtitle {
             color: var(--secondary);
             font-weight: 500;
+            font-size: 14px;
+            padding: 0 10px;
         }
 
-        /* Controls Area */
         .controls {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 30px;
-            padding: 20px;
+            margin-bottom: 25px;
+            padding: 15px;
             background: #f9fdf9;
             border-radius: 16px;
             gap: 15px;
-            flex-wrap: wrap;
+            flex-direction: column;
+        }
+
+        @media (min-width: 768px) {
+            .controls { flex-direction: row; }
+            body { padding: 20px; }
+            .container { padding: 30px; }
         }
 
         .voice-group {
             display: flex;
             align-items: center;
             gap: 10px;
+            width: 100%;
         }
 
         select {
-            padding: 10px;
+            flex: 1;
+            padding: 12px;
             border-radius: 10px;
             border: 2px solid var(--accent);
             font-family: inherit;
             outline: none;
             background: white;
+            font-size: 14px;
         }
 
         .btn {
-            padding: 14px 28px;
+            width: 100%;
+            padding: 16px;
             border: none;
             border-radius: 12px;
             font-weight: 700;
@@ -95,8 +107,14 @@
             transition: all 0.3s;
             display: flex;
             align-items: center;
+            justify-content: center;
             gap: 10px;
             box-shadow: 0 4px 14px rgba(0,0,0,0.1);
+            font-size: 16px;
+        }
+
+        @media (min-width: 768px) {
+            .btn { width: auto; }
         }
 
         .btn-quiz { 
@@ -107,166 +125,164 @@
         
         @keyframes pulse {
             0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 152, 0, 0.4); }
-            70% { transform: scale(1.03); box-shadow: 0 0 0 10px rgba(255, 152, 0, 0); }
+            70% { transform: scale(1.02); box-shadow: 0 0 0 10px rgba(255, 152, 0, 0); }
             100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 152, 0, 0); }
         }
 
-        .btn-quiz:hover { 
-            background: #f57c00; 
-            transform: translateY(-2px); 
-        }
-
-        /* Vocab Grid */
         .grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-            gap: 20px;
+            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            gap: 12px;
+        }
+
+        @media (min-width: 480px) {
+            .grid { grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 20px; }
         }
 
         .card {
             position: relative;
-            height: 120px;
+            height: 100px;
             background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
-            border-radius: 18px;
+            border-radius: 15px;
             display: flex;
             align-items: center;
             justify-content: center;
             color: white;
-            font-size: 18px;
+            font-size: 15px;
             font-weight: 600;
             text-align: center;
-            padding: 15px;
+            padding: 10px;
             cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            box-shadow: 0 4px 15px rgba(46, 125, 50, 0.2);
+            box-shadow: 0 4px 10px rgba(46, 125, 50, 0.15);
         }
 
-        .card:hover {
-            transform: scale(1.05);
-            box-shadow: 0 10px 25px rgba(46, 125, 50, 0.3);
-        }
-
-        /* Tooltip style */
         .card .details {
-            position: absolute;
-            bottom: 120%;
+            position: fixed;
+            bottom: 20px;
             left: 50%;
-            transform: translateX(-50%) translateY(10px);
-            width: 280px;
+            transform: translateX(-50%) translateY(100px);
+            width: calc(100% - 40px);
+            max-width: 350px;
             background: #1b5e20;
             padding: 20px;
-            border-radius: 15px;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+            border-radius: 20px;
+            box-shadow: 0 -5px 30px rgba(0,0,0,0.3);
             opacity: 0;
             pointer-events: none;
-            transition: all 0.3s;
-            z-index: 10;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            z-index: 100;
         }
 
+        .card.active .details, 
         .card:hover .details {
             opacity: 1;
             transform: translateX(-50%) translateY(0);
             pointer-events: auto;
         }
 
-        .details::after {
-            content: '';
-            position: absolute;
-            top: 100%;
-            left: 50%;
-            margin-left: -10px;
-            border-width: 10px;
-            border-style: solid;
-            border-color: #1b5e20 transparent transparent transparent;
+        @media (min-width: 1024px) {
+            .card .details {
+                position: absolute;
+                bottom: 120%;
+                transform: translateX(-50%) translateY(10px);
+            }
+            .card:hover .details {
+                transform: translateX(-50%) translateY(0);
+            }
         }
 
         .ipa { 
             color: #ffffff; 
-            background: rgba(0,0,0,0.2);
-            padding: 4px 8px;
+            background: rgba(255,255,255,0.15);
+            padding: 5px 10px;
             border-radius: 6px;
             font-family: 'Roboto Mono', monospace; 
-            font-size: 15px; 
+            font-size: 14px; 
             font-weight: 500;
             margin-bottom: 10px; 
             display: inline-block;
-            border: 1px solid rgba(255,255,255,0.2);
         }
-        .def { font-size: 13px; color: #e8f5e9; font-style: italic; margin-bottom: 10px; line-height: 1.4; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 10px;}
-        .v-meaning { display: block; font-size: 17px; margin-bottom: 12px; color: #fff; text-shadow: 1px 1px 2px rgba(0,0,0,0.3); }
+        .def { font-size: 13px; color: #e8f5e9; font-style: italic; margin-bottom: 12px; line-height: 1.5; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 10px;}
+        .v-meaning { display: block; font-size: 18px; margin-bottom: 15px; color: #fff; font-weight: 700; }
+        
         .yg-link {
-            display: inline-block;
-            width: 100%;
-            padding: 8px;
+            display: block;
+            padding: 12px;
             background: var(--secondary);
             color: white;
             text-decoration: none;
-            border-radius: 8px;
-            font-size: 12px;
+            border-radius: 10px;
+            font-size: 14px;
             text-align: center;
+            font-weight: 600;
         }
 
-        /* Quiz Overlay */
         #quizOverlay {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.85);
+            background: rgba(0,0,0,0.9);
             display: none;
             align-items: center;
             justify-content: center;
             z-index: 1000;
-            backdrop-filter: blur(5px);
+            backdrop-filter: blur(8px);
         }
 
         .quiz-container {
             background: white;
-            width: 90%;
+            width: 95%;
             max-width: 500px;
-            padding: 40px;
+            padding: 30px 20px;
             border-radius: 24px;
             text-align: center;
             position: relative;
+            max-height: 90vh;
+            overflow-y: auto;
         }
 
-        .quiz-q { font-size: 22px; font-weight: 700; color: var(--primary-dark); margin-bottom: 30px; }
-        .options { display: grid; gap: 12px; }
+        .quiz-q { font-size: 20px; font-weight: 700; color: var(--primary-dark); margin-bottom: 20px; padding: 0 10px; }
+        .options { display: grid; gap: 10px; }
         .opt-btn {
-            padding: 16px;
+            padding: 14px;
             border: 2px solid #eee;
-            border-radius: 12px;
+            border-radius: 14px;
             background: white;
             cursor: pointer;
-            font-size: 16px;
+            font-size: 15px;
             font-family: inherit;
+            font-weight: 500;
             transition: 0.2s;
         }
-        .opt-btn:hover:not(:disabled) { border-color: var(--primary); background: #f1f8e9; }
         
         .opt-btn.correct { background: var(--success) !important; color: white; border-color: var(--success); }
         .opt-btn.wrong { background: var(--danger) !important; color: white; border-color: var(--danger); }
 
         .close-quiz {
             position: absolute;
-            top: 15px; right: 20px;
-            font-size: 30px;
+            top: 10px; right: 15px;
+            font-size: 28px;
             cursor: pointer;
             color: #999;
+            padding: 10px;
         }
 
-        @media (max-width: 600px) {
-            .container { padding: 15px; }
-            .grid { grid-template-columns: 1fr 1fr; }
-            .card { height: 100px; font-size: 15px; }
-            .controls { flex-direction: column; align-items: stretch; }
+        #mobileOverlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.4);
+            display: none;
+            z-index: 90;
         }
     </style>
 </head>
 <body>
 
+<div id="mobileOverlay" onclick="closeAllCards()"></div>
+
 <div class="container">
     <header>
         <h1>Vocab for Review Test 3</h1>
-        <p class="subtitle">Di chuột qua các từ vựng để biết nghĩa, phiên âm IPA và bối cảnh thực tế</p>
+        <p class="subtitle">Chạm (Mobile) hoặc Di chuột (PC) để xem nghĩa và nghe phát âm</p>
     </header>
 
     <div class="controls">
@@ -286,10 +302,10 @@
     <div class="quiz-container">
         <span class="close-quiz" onclick="closeQuiz()">&times;</span>
         <div id="quizContent">
-            <div class="quiz-q" id="question">Loading...</div>
+            <div class="quiz-q" id="question">Đang tải...</div>
             <div class="options" id="optionsGrid"></div>
         </div>
-        <div id="score" style="margin-top: 20px; font-weight: 600; color: #666;"></div>
+        <div id="score" style="margin-top: 20px; font-weight: 600; color: #666; font-size: 14px;"></div>
     </div>
 </div>
 
@@ -317,19 +333,46 @@
         "Functionality": { ipa: "/ˌfʌŋk.ʃənˈæl.ə.ti/", paraphrase: "how useful something is and how well it works", meaning: "tính năng/tính hữu dụng" }
     };
 
-    // --- Audio System ---
+    // --- Web Audio API để tạo âm báo ting ting / buồn ---
+    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+
+    function playSound(type) {
+        if (audioCtx.state === 'suspended') audioCtx.resume();
+        const oscillator = audioCtx.createOscillator();
+        const gainNode = audioCtx.createGain();
+        oscillator.connect(gainNode);
+        gainNode.connect(audioCtx.destination);
+
+        if (type === 'correct') {
+            // Âm "Ting" cao và sáng
+            oscillator.type = 'sine';
+            oscillator.frequency.setValueAtTime(880, audioCtx.currentTime); // A5
+            oscillator.frequency.exponentialRampToValueAtTime(1320, audioCtx.currentTime + 0.1);
+            gainNode.gain.setValueAtTime(0.1, audioCtx.currentTime);
+            gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.2);
+            oscillator.start();
+            oscillator.stop(audioCtx.currentTime + 0.2);
+        } else {
+            // Âm "Bụp" trầm và ngắn
+            oscillator.type = 'square';
+            oscillator.frequency.setValueAtTime(150, audioCtx.currentTime);
+            gainNode.gain.setValueAtTime(0.1, audioCtx.currentTime);
+            gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.2);
+            oscillator.start();
+            oscillator.stop(audioCtx.currentTime + 0.2);
+        }
+    }
+
     let synth = window.speechSynthesis;
     let voices = [];
     const voiceSelect = document.getElementById('voiceSelect');
 
     function populateVoices() {
-        // Lọc bỏ David và Zira, chỉ lấy các giọng tiếng Anh khác
         voices = synth.getVoices().filter(v => 
             v.lang.startsWith('en') && 
             !v.name.includes('David') && 
             !v.name.includes('Zira')
         );
-        
         voiceSelect.innerHTML = voices.map((v, i) => 
             `<option value="${i}">${v.name.includes('Google') ? '🌐 ' : '🗣️ '}${v.name}</option>`
         ).join('');
@@ -343,14 +386,16 @@
     function speak(text) {
         synth.cancel();
         const utter = new SpeechSynthesisUtterance(text);
-        if (voices[voiceSelect.value]) {
-            utter.voice = voices[voiceSelect.value];
-        }
+        if (voices[voiceSelect.value]) utter.voice = voices[voiceSelect.value];
         utter.rate = 0.85;
         synth.speak(utter);
     }
 
-    // --- Render Grid ---
+    function closeAllCards() {
+        document.querySelectorAll('.card').forEach(c => c.classList.remove('active'));
+        document.getElementById('mobileOverlay').style.display = 'none';
+    }
+
     const grid = document.getElementById('vocabGrid');
     Object.entries(VOCAB_DATA).forEach(([word, info]) => {
         const card = document.createElement('div');
@@ -364,19 +409,50 @@
                 <a href="https://youglish.com/pronounce/${word}/english" target="_blank" class="yg-link">📺 Xem ví dụ thực tế</a>
             </div>
         `;
-        card.onmouseenter = () => speak(word);
+
+        card.addEventListener('mouseenter', () => { if(window.innerWidth >= 1024) speak(word); });
+        
+        card.addEventListener('click', (e) => {
+            if (window.innerWidth < 1024) {
+                e.stopPropagation();
+                const wasActive = card.classList.contains('active');
+                closeAllCards();
+                if (!wasActive) {
+                    card.classList.add('active');
+                    document.getElementById('mobileOverlay').style.display = 'block';
+                    speak(word);
+                }
+            } else {
+                speak(word);
+            }
+        });
+
         grid.appendChild(card);
     });
 
-    // --- Quiz Logic ---
+    // --- Cải tiến Quiz để không bị lặp từ ---
     let currentQ = '';
     let score = 0;
     let totalQuestions = 0;
+    let questionPool = [];
+
+    function shuffleArray(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+        }
+        return array;
+    }
+
+    function resetQuestionPool() {
+        questionPool = shuffleArray(Object.keys(VOCAB_DATA));
+    }
 
     function openQuiz() {
         document.getElementById('quizOverlay').style.display = 'flex';
-        score = 0;
+        score = 0; 
         totalQuestions = 0;
+        resetQuestionPool();
         updateScore();
         generateQuestion();
     }
@@ -387,16 +463,19 @@
     }
 
     function generateQuestion() {
-        const keys = Object.keys(VOCAB_DATA);
-        currentQ = keys[Math.floor(Math.random() * keys.length)];
+        if (questionPool.length === 0) {
+            resetQuestionPool();
+        }
+
+        currentQ = questionPool.shift();
         const correct = VOCAB_DATA[currentQ].meaning;
         
         let distractors = Object.values(VOCAB_DATA)
             .map(v => v.meaning)
             .filter(m => m !== correct);
-        distractors = distractors.sort(() => 0.5 - Math.random()).slice(0, 3);
+        distractors = shuffleArray(distractors).slice(0, 3);
         
-        const options = [...distractors, correct].sort(() => 0.5 - Math.random());
+        const options = shuffleArray([...distractors, correct]);
         
         document.getElementById('question').innerText = `Từ "${currentQ}" nghĩa là gì?`;
         const optionsGrid = document.getElementById('optionsGrid');
@@ -419,10 +498,10 @@
         if (isCorrect) {
             selectedBtn.classList.add('correct');
             score++;
-            speak("Correct!");
+            playSound('correct');
         } else {
             selectedBtn.classList.add('wrong');
-            speak("Wrong answer.");
+            playSound('wrong');
             btns.forEach(b => {
                 if (b.innerText === VOCAB_DATA[currentQ].meaning) b.classList.add('correct');
             });
@@ -433,7 +512,7 @@
     }
 
     function updateScore() {
-        document.getElementById('score').innerText = `Kết quả: ${score}/${totalQuestions}`;
+        document.getElementById('score').innerText = `Kết quả: ${score}/${totalQuestions} (Còn ${questionPool.length} từ trong bộ này)`;
     }
 </script>
 
